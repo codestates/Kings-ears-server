@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "sequelize": "^6.6.2"
+  },
+  "name": "kings-ears-server",
+  "description": "kings-ears-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codestates/Kings-ears-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codestates/Kings-ears-server/issues"
+  },
+  "homepage": "https://github.com/codestates/Kings-ears-server#readme"
+}
