@@ -11,27 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.secret.belongsTo(models.user, {
-        foreignKey: "userId",
-        targetKey: "id" 
-      })
-      // models.user.belongsToMany(models.secret, {
-      //   foreignKey: "id",
-      //   sourceKey: "id"
-      // })
     }
   };
   secret.init({
-    userId: DataTypes.INTEGER,
     content: DataTypes.STRING,
-    likeCount: {
-      type:DataTypes.INTEGER,
-      defaultValue:0,
-    } ,
-    dislikeCount: {
-      type:DataTypes.INTEGER,
-      defaultValue:0,
-    } 
+    likeCount: DataTypes.INTEGER,
+    dislikeCount: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'secret',
