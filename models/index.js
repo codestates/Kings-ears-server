@@ -34,9 +34,17 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-const { secret, user } = sequelize.models;
+const { secret, user, users_secret } = sequelize.models;
 secret.belongsTo(user);
 user.hasMany(secret);
+
+// users_secret.belongsTo(user);
+// user.hasMany(users_secret);
+// users_secret.belongsTo(secret);
+// secret.hasMany(users_secret);
+user.belongsToMany(secret, {through: users_secret});
+secret.belongsToMany(user, {through: users_secret});
+
 
 
 module.exports = db;
