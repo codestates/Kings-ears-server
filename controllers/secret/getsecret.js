@@ -33,11 +33,17 @@ module.exports = async (req, res) => {
 
         let len = data2.length;
         let idx = Math.floor(Math.random() * (len))
-        const { username, content, likecount, dislikecount } = data2[idx]
+        const { username, content, likecount, dislikecount, id } = data2[idx]
+
+        await users_secret.create({
+            userId = uid,
+            secretId = id
+        })
 
         res.status(200).send({
             message: 'OK',
             data: {
+                id,
                 writer: username,
                 content,
                 likecount,
