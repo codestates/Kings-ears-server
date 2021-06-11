@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'database_development';
+const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
@@ -42,8 +42,8 @@ user.hasMany(secret);
 // user.hasMany(users_secret);
 // users_secret.belongsTo(secret);
 // secret.hasMany(users_secret);
-user.belongsToMany(secret, {through: users_secret});
-secret.belongsToMany(user, {through: users_secret});
+// user.belongsToMany(secret, {through: users_secret});
+// secret.belongsToMany(user, {through: users_secret});
 
 
 
