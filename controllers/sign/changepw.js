@@ -10,16 +10,16 @@ module.exports = async (req, res) => {
     }, raw: true
     });
     if (!users) {
-    res.status(404).json({ message: "Check your password" });
+        res.status(404).json({ message: "Check your password" });
     } else {
-    await user
-        .update(
-        {
-            password: req.body.newpassword,
-        },
+        await user
+            .update(
+            {
+                password: req.body.newpassword,
+            },
 
-        { where: { email: users.email } },
-        )
-        res.status(200).json({ message: "PW Changed" });
+            { where: { email: users.email } },
+            )
+            res.status(200).json({ message: "PW Changed" });
     }
 }
