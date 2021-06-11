@@ -8,6 +8,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
+    "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0"
