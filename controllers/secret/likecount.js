@@ -1,17 +1,17 @@
 const { secret } = require('../../models');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const id = Number(req.params.id);
     const Oplike = Number(req.headers.likeCount);
     const Opdislike = Number(req.headers.dislikeCount);
 
-    const target = secret.findOne({
+    const target = await secret.findOne({
         where: { id: id }, raw: true
     })
 
     const { likeCount, dislikeCount } = target
 
-    secret.update({
+    await secret.update({
         likeCount: likeCount + Oplike,
         dislikeCount: dislikeCount + Opdislike
     }, { where: { id: id }})
