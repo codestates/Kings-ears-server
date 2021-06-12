@@ -20,7 +20,7 @@ app.use(cookieParser());
 //구현할 때마다 주석처리해주기
 app.post('/signup', controllers.signup);
 app.post('/signin', controllers.signin);
-// app.get('/signout', controllers.signout);
+app.get('/signout', controllers.signout);
 // app.delete('/byebye', controllers.byebye);
 // app.get('/user', controllers.userinfo);
 // app.get('/list', controllers.getsecret);
