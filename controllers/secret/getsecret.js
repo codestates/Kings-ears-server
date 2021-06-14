@@ -36,8 +36,8 @@ module.exports = async (req, res) => {
         const { username, content, likecount, dislikecount, id } = data2[idx]
 
         await users_secret.create({
-            userId = uid,
-            secretId = id
+            userId: uid,
+            secretId: id
         })
 
         res.status(200).send({
