@@ -19,14 +19,14 @@ module.exports = async (req, res) => {
         }, { where: { id: uid } })
         
         const data = await secret.findAll({
-            where: { userId: { [Op.ne]: 1 }}, raw:true,
+            where: { userId: { [Op.ne]: uid }}, raw:true,
             include: [{
                 model: users_secret
             }]
         });
 
         const data2 = data.filter(el => {
-            if (el['users_secrets.userId'] !== 1) {
+            if (el['users_secrets.userId'] !== uid) {
                 return el
             }
         });
