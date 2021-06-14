@@ -9,10 +9,19 @@ module.exports = {
         return sign(data, process.env.REFRESH_SECRET, { expiresIn: '5d' })
     },
     sendAccessToken: (res, accessToken) => {
-        res.status(200).send({
-            message: 'OK',
-            accessToken: accessToken
-        })
+        try {
+            res.set('Connection', 'close')
+            res.status(200).send({
+                message: 'OK',
+                accessToken: accessToken
+            })
+        }
+        catch {
+            res.status(404).send({
+                err,
+                message: 'err'
+            })
+        }
     },
     sendRefreshToken: (res, refreshToken) => {
         res.cookie("refreshToken", refreshToken);
