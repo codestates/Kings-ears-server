@@ -8,6 +8,7 @@ module.exports = {
     getsecret: require('./secret/getsecret'),
     newsecret: require('./secret/newsecret'),
     changepw: require('./sign/changepw'),
-    likecount: require('./secret/likecount')
+    likecount: require('./secret/likecount'),
+    landingpage: require('./landingpage')
   };
   
