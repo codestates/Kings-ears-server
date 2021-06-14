@@ -25,7 +25,8 @@ app.post('/signin', controllers.signin);
 // app.get('/user', controllers.userinfo);
 app.get('/list', controllers.getsecret);
 app.post('/new', controllers.newsecret);
-app.patch('/changepw', controllers.changepw)
+app.patch('/changepw', controllers.changepw);
+app.get('/list/:id', controllers.likecount)
 
 app.get('/', (req, res) => {
   res.status(201).send('Hello World');
