@@ -3,7 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const port = 80;
+const port = 5000;
 
 const controllers = require("./controllers");
 
@@ -22,7 +22,7 @@ app.post('/signup', controllers.signup);
 app.post('/signin', controllers.signin);
 app.get('/signout', controllers.signout);
 app.delete('/byebye', controllers.byebye);
-// app.get('/user', controllers.userinfo);
+app.get('/user', controllers.userinfo);
 app.get('/secret', controllers.getsecret);
 app.post('/new', controllers.newsecret);
 app.patch('/changepw', controllers.changepw);
