@@ -26,11 +26,9 @@ app.get('/user', controllers.userinfo);
 app.get('/secret', controllers.getsecret);
 app.post('/new', controllers.newsecret);
 app.patch('/changepw', controllers.changepw);
+app.get('/', controllers.landingpage);
 app.get('/secret-user-response/:id', controllers.likecount)
 
-app.get('/', (req, res) => {
-  res.status(201).send('Hello World');
-});
 
 app.listen(port, () => {
   console.log(`서버가 ${port}번에서 작동중입니다.`);
