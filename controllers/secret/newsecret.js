@@ -2,36 +2,41 @@ const { user } = require("../../models");
 const { secret } = require("../../models");
 const { verifyAccessToken } = require("../../token")
 
-module.exports = async(req, res) => {
-    
-    const { content } = req.body;
-    const userToken = await verifyAccessToken(req);
+module.exports = async (req, res) => {
 
-    const userInfo = await user.findOne({
-        where: {
-            username: userToken.username,
-            id: userToken.id
-        }, raw: true
-    })
-    if(!userInfo){
+    const userToken = await verifyAccessToken(req)
+    console.log('@@@@@@@@@@@@@@@@@@@', userToken)
+    if (userToken === null) {
         res.status(403).send({
-            message: "invalid token"
+            message: "AccessToken Expired"
         })
-    }else{
-        await secret
-            .create({
+    } else {
+        const userInfo = await user.findOne({
+            where: {
+                username: userToken.username,
+                id: userToken.id
+            }, raw: true
+        })
+        if (!userInfo) {
+            res.status(403).send({
+                message: "invalid token"
+            })
+        } else {
+            const { content } = req.body;
+            
+            await secret.create({
                 content: content,
                 userId: userToken.id
             })
-            res.status(201).send({
-            message: "new secret created"
-            })
-        //안되면 increment("coin", {by: 1})
-        await user
-            .update({
+
+            await user.update({
                 coin: userInfo.coin + 1
-            },{
-                where:{id: userToken.id}
+            }, {
+                where: { id: userToken.id }
             })
+            res.status(201).send({
+                message: "new secret created"
+            })
+        }
     }
 }

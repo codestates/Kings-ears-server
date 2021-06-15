@@ -3,31 +3,30 @@ require('dotenv').config();
 
 module.exports = {
     generateAccessToken: (data) => {
-        return sign(data, process.env.ACCESS_SECRET, { expiresIn: '120' })
+        return sign(data, process.env.ACCESS_SECRET, { expiresIn: '120s' })
     },
     generateRefreshToken: (data) => {
         return sign(data, process.env.REFRESH_SECRET, { expiresIn: '5d' })
     },
     sendAccessToken: (res, accessToken) => {
-        try {
-            res.set('Connection', 'close')
-            res.status(200).send({
-                message: 'OK',
-                accessToken: accessToken
-            })
-        }
-        catch {
-            res.status(404).send({
-                err,
-                message: 'err'
-            })
-        }
+        res.status(200).send({
+            message: 'OK',
+            accessToken: accessToken
+        })
     },
     sendRefreshToken: (res, refreshToken) => {
         res.cookie("refreshToken", refreshToken);
     },
     verifyAccessToken: (req) => {
-        const token = req.headers.Authorization.split(' ')[1]
-        return verify(token, process.env.ACCESS_SECRET)
-    }
+        const authorization = req.headers["authorization"];
+        if (!authorization) {
+            return null;
+        }
+        const token = authorization.split(" ")[1];
+        try {
+            return verify(token, process.env.ACCESS_SECRET);
+        } catch (err) {
+            return null;
+        }
+    },
 }
