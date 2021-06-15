@@ -3,9 +3,8 @@ const { secret } = require("../../models");
 const { verifyAccessToken } = require("../../token")
 
 module.exports = async (req, res) => {
-
     const userToken = await verifyAccessToken(req)
-    console.log('@@@@@@@@@@@@@@@@@@@', userToken)
+
     if (userToken === null) {
         res.status(403).send({
             message: "AccessToken Expired"

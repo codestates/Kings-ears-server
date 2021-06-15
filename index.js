@@ -6,6 +6,9 @@ const app = express();
 const port = 80;
 
 const controllers = require("./controllers");
+const verify = require('./token/verifytoken')
+const refresh = require('./token/refreshaccess');
+const verify = require('./token/verifytoken');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,6 +31,8 @@ app.post('/newsecret', controllers.newsecret);
 app.patch('/changepw', controllers.changepw);
 app.get('/', controllers.landingpage);
 app.get('/secret-user-response/:id', controllers.likecount)
+app.get('/verification', verify.verifyToken);
+app.get('/accesstoken', refresh.refreshaccess);
 
 
 app.listen(port, () => {

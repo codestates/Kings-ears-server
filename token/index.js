@@ -29,4 +29,12 @@ module.exports = {
             return null;
         }
     },
+    verifyrefreshToken: (req) => {
+        const refreshToken = req.cookies.refreshToken;
+        try {
+            return verify(refreshToken, process.env.REFRESH_SECRET);
+        } catch (err) {
+            return null;
+        }
+    }
 }
