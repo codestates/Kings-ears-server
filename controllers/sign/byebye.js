@@ -2,9 +2,7 @@ const { user, secret, users_secret } = require('../../models');
 const { verifyrefreshToken } = require('../../token');
 
 module.exports = async (req, res) => {
-    console.log('@@@@@@@@@@@@@@@@@@@', req.headers)
     const userToken = await verifyrefreshToken(req)
-    console.log('###############', userToken)
 
     if (userToken === null) {
         res.status(403).send()
