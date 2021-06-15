@@ -48,6 +48,11 @@ module.exports = {
     content: '읽은글은 내가 나와야해 관리자야.4',
     userId: 2
   }], {})
+  await queryInterface.bulkInsert('secrets', [{
+    id: 5,
+    content: '관리자가 쓴 쓸데없는 글 입니다.5',
+    userId: 1
+  }], {})
 
   await queryInterface.bulkInsert('users_secrets', [{
     id: 1,
