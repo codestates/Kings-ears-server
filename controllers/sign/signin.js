@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const userInfo = await user.findOne({
         where: { email: email, password: password }, raw: true
     })
-    try {
+    // try {
         if (!userInfo) {
             res.status(404).send({
                 message: 'No user data'
@@ -19,10 +19,10 @@ module.exports = async (req, res) => {
             sendRefreshToken(res, refreshToken);
             sendAccessToken(res, accessToken);
         }
-    }
-    catch {
-        res.status(404).send({
-            message: 'No user data!!!!!!!!!!'
-        })
-    }
+    // }
+    // catch {
+    //     res.status(404).send({
+    //         message: 'No user data!!!!!!!!!!'
+    //     })
+    // }
 }
