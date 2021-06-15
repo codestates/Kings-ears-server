@@ -60,6 +60,13 @@ module.exports = {
     secretId: 4
   }], {})
 
+  await queryInterface.bulkInsert('users_secrets', [{
+    id: 2,
+    userId: 1,
+    secretId: 3
+  }], {})
+
+
   },
   
 
