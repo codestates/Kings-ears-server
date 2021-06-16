@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
         const refreshToken = generateRefreshToken(userInfo);
 
         const secrets = await secret.count({
-            where: { userId: { [Op.eq]: uid } }
+            where: { userId: { [Op.eq]: userInfo.id } }
         })
 
         const rank = await secret.findOne({
