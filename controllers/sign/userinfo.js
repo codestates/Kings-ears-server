@@ -33,14 +33,14 @@ module.exports = async (req, res) => {
             });
 
             const sortArr = data2.sort((a, b) => b['users_secrets.createdAt'] - a['users_secrets.createdAt']);
-            const viewsecret = sortArr.slice(0, 4)
+            const viewsecret = sortArr.slice(0, 5)
 
             //내가 쓴 글 query
             const data3 = await secret.findAll({
                 where: { userId: { [Op.eq]: uid } }, raw: true,
             })
             const sortArr1 = data3.sort((a, b) => b['secret.createdAt'] - a['secret.createdAt']);
-            const mysecret = sortArr1.slice(0, 4)
+            const mysecret = sortArr1.slice(0, 5)
 
             //비밀글수 query
             const secretLen = data3.length
@@ -50,13 +50,26 @@ module.exports = async (req, res) => {
                 attributes: ['username'],
                 where: { id: uid }, raw: true,
             })
+            const rankOne = false;
+            const rank = await secret.findOne({
+                attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
+                group: 'userId',
+                order: [[sequelize.col('secretCount'), 'DESC']],
+                include: [{ model: user, attributes: ['username'] }]
+            })
+            const kingdonkey = rank.user.username;
+            if (kingdonkey === data4.username) {
+                rankOne = true
+            }
+
             res.status(200).send({
                 message: "OK",
                 data: {
                     username: data4.username,
                     secrets: secretLen,
                     viewsecret,
-                    mysecret
+                    mysecret,
+                    rankOne
                 }
             })
         }

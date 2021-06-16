@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
         const day = ("0" + date.getDate()).slice(-2);
         return year + "-" + month + "-" + day;
     }
-    const today = getToday()
+    const today = String(getToday()) + ' 08:59:59'
 
     const rankOne = await secret.findOne({
         attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
@@ -19,9 +19,8 @@ module.exports = async (req, res) => {
         include: [{ model: user, attributes: ['username'] }]
     })
     const kingdonkey = rankOne.user.username
-
     const todaysecret = await secret.count({
-        where: { createdAt: { [Op.like]: `${today}%` } }
+        where: { createdAt: { [Op.between]: [today, Date.parse(new Date())] } },
     })
 
     res.status(200).send({
