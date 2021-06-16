@@ -1,5 +1,5 @@
-const { user } = require('../../models');
-const { generateAccessToken, generateRefreshToken, sendAccessToken, sendRefreshToken } = require('../../token');
+const { user, secret, sequelize } = require('../../models');
+const { generateAccessToken, generateRefreshToken, sendRefreshToken } = require('../../token');
 const { Op } = require("sequelize");
 
 module.exports = async (req, res) => {
@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
         const accessToken = generateAccessToken(userInfo);
         const refreshToken = generateRefreshToken(userInfo);
 
-        const secrets = await secret.count({
+        let secrets = await secret.count({
             where: { userId: { [Op.eq]: userInfo.id } }
         })
 
