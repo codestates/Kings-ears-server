@@ -6,7 +6,9 @@ module.exports = async (req, res) => {
     const userToken = await verifyrefreshToken(req)
 
     if (userToken === null) {
-        res.status(403).send()
+        res.status(403).send({
+            message: 'RefreshToken Expired'
+        })
     } else {
         const userPass = req.headers.password;
         const email = userToken.email;
@@ -36,7 +38,7 @@ module.exports = async (req, res) => {
 
         } else {
             res.status(403).send({
-                message: 'AccessToken Expired'
+                message: 'RefreshToken Expired'
             })
         }
     }
