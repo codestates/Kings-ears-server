@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 
 module.exports = async (req, res) => {
     const userToken = await verifyAccessToken(req);
+    
     if (userToken === null) {
         res.status(403).send({
             message: 'AccessToken Expired'

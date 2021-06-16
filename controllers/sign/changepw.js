@@ -1,14 +1,14 @@
 const { user } = require("../../models");
-const { verifyAccessToken } = require("../../token")
+const { verifyrefreshToken } = require("../../token")
 const bcrypt = require("bcrypt")
 const { comparebcrypt, hashbcrypt } = require('../../bcryptmodule')
 
 module.exports = async (req, res) => {
-    const userToken = await verifyAccessToken(req);
+    const userToken = await verifyrefreshToken(req);
     
     if (userToken === null) {
         res.status(403).send({
-            message: 'AccessToken Expired'
+            message: 'RefreshToken Expired'
         })
     } else {
         const users = await user.findOne({
