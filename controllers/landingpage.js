@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     const todaysecret = await secret.count({
         where: { createdAt: { [Op.between]: [today, Date.parse(new Date())] } },
     })
-
+    
     res.status(200).send({
         message: 'OK',
         data: {

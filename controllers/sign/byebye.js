@@ -1,5 +1,6 @@
 const { user, secret, users_secret } = require('../../models');
 const { verifyrefreshToken } = require('../../token');
+const { comparebcrypt } = require('../../bcryptmodule')
 
 module.exports = async (req, res) => {
     const userToken = await verifyrefreshToken(req)
@@ -12,12 +13,13 @@ module.exports = async (req, res) => {
 
         const userInfo = await user.findOne({
             where: {
-                email: email,
-                password: userPass
+                email: email
             }, raw: true
         })
+        const dbpass = userInfo.password;
+        // const pass = bcrypt.compareSync(password, dbpass);
 
-        if (userInfo) {
+        if (userInfo && await comparebcrypt(userPass, dbpass)) {
             await secret.destroy({
                 where: { userId: userInfo.id }
             })
