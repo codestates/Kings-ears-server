@@ -39,28 +39,20 @@ module.exports = async (req, res) => {
             const data3 = await secret.findAll({
                 where: { userId: { [Op.eq]: uid } }, raw: true,
             })
+
+            const secretLen = data3.length;
+
             const sortArr1 = data3.sort((a, b) => b['secret.createdAt'] - a['secret.createdAt']);
             const mysecret = sortArr1.slice(0, 5)
 
             //비밀글수 query
-            const secretLen = data3.length
+
 
             //유저네임 query
             const data4 = await user.findOne({
                 attributes: ['username'],
                 where: { id: uid }, raw: true,
             })
-            const rankOne = false;
-            const rank = await secret.findOne({
-                attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
-                group: 'userId',
-                order: [[sequelize.col('secretCount'), 'DESC']],
-                include: [{ model: user, attributes: ['username'] }]
-            })
-            const kingdonkey = rank.user.username;
-            if (kingdonkey === data4.username) {
-                rankOne = true
-            }
 
             res.status(200).send({
                 message: "OK",
@@ -69,7 +61,6 @@ module.exports = async (req, res) => {
                     secrets: secretLen,
                     viewsecret,
                     mysecret,
-                    rankOne
                 }
             })
         }
