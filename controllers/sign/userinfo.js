@@ -50,13 +50,26 @@ module.exports = async (req, res) => {
                 attributes: ['username'],
                 where: { id: uid }, raw: true,
             })
+            const rankOne = false;
+            const rank = await secret.findOne({
+                attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
+                group: 'userId',
+                order: [[sequelize.col('secretCount'), 'DESC']],
+                include: [{ model: user, attributes: ['username'] }]
+            })
+            const kingdonkey = rank.user.username;
+            if (kingdonkey === data4.username) {
+                rankOne = true
+            }
+
             res.status(200).send({
                 message: "OK",
                 data: {
                     username: data4.username,
                     secrets: secretLen,
                     viewsecret,
-                    mysecret
+                    mysecret,
+                    rankOne
                 }
             })
         }
