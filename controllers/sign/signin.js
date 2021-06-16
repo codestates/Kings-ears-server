@@ -1,6 +1,5 @@
-const { user, secret, sequelize } = require('../../models');
-const { generateAccessToken, generateRefreshToken, sendRefreshToken } = require('../../token');
-const { Op } = require("sequelize");
+const { user } = require('../../models');
+const { generateAccessToken, generateRefreshToken, sendRefreshToken, sendAccessToken } = require('../../token');
 
 module.exports = async (req, res) => {
     const { email, password } = req.body;
@@ -16,29 +15,8 @@ module.exports = async (req, res) => {
         const accessToken = generateAccessToken(userInfo);
         const refreshToken = generateRefreshToken(userInfo);
 
-        let secrets = await secret.count({
-            where: { userId: { [Op.eq]: userInfo.id } }
-        })
-
-        const rank = await secret.findOne({
-            attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
-            group: 'userId',
-            order: [[sequelize.col('secretCount'), 'DESC']],
-            include: [{ model: user, attributes: ['username'] }]
-        })
-        const kingdonkey = rank.user.username;
-        if (kingdonkey === userInfo.username) {
-            secrets = 9999
-        }
-
-        const username = userInfo.username;
-
         sendRefreshToken(res, refreshToken)
-        res.status(200).send({
-            message: 'OK',
-            data: { username, secrets },
-            accessToken: accessToken
-        })
+        sendAccessToken(res, accessToken)
     }
 
 }
