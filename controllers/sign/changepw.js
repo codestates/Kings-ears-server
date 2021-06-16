@@ -5,7 +5,7 @@ const { comparebcrypt, hashbcrypt } = require('../../bcryptmodule')
 
 module.exports = async (req, res) => {
     const userToken = await verifyrefreshToken(req);
-    
+
     if (userToken === null) {
         res.status(403).send({
             message: 'RefreshToken Expired'
@@ -20,10 +20,10 @@ module.exports = async (req, res) => {
 
         const dbpass = users.password
         // const pass = bcrypt.compareSync(password, dbpass);
+        let pass = await comparebcrypt(req.body.currentpassword, dbpass)
+        console.log('@@@@@@@@@@@@@@@@@@', pass)
 
-        if (!users && await !comparebcrypt( req.body.currentpassword, dbpass)) {
-            res.status(404).json({ message: "Check your password" });
-        } else {
+        if (users && pass) {
             await user
                 .update(
                     {
@@ -33,6 +33,9 @@ module.exports = async (req, res) => {
                     { where: { email: users.email } },
                 )
             res.status(200).json({ message: "PW Changed" });
+        } else {
+            res.status(404).json({ message: "Check your password" });
+
         }
     }
 }

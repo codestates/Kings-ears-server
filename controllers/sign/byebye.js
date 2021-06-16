@@ -20,8 +20,11 @@ module.exports = async (req, res) => {
         })
         const dbpass = userInfo.password;
         // const pass = bcrypt.compareSync(password, dbpass);
+        let pass = await comparebcrypt(userPass, dbpass)
 
-        if (userInfo && await comparebcrypt(userPass, dbpass)) {
+        if (!pass) {
+            res.status(404).send()
+        } else {
             await secret.destroy({
                 where: { userId: userInfo.id }
             })
@@ -33,13 +36,7 @@ module.exports = async (req, res) => {
             await users_secret.destroy({
                 where: { userId: userInfo.id }
             })
-
             res.status(204).send()
-
-        } else {
-            res.status(403).send({
-                message: 'RefreshToken Expired'
-            })
         }
     }
 }
