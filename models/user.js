@@ -1,4 +1,8 @@
 'use strict';
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+dotenv.config()
+
 const {
   Model
 } = require('sequelize');
@@ -23,6 +27,25 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 5
     }
   }, {
+    hooks: {
+      // beforeCreate: async (user) => {
+      //   if(user.password){
+      //     const salt = await bcrypt.genSaltSync(10, 'a');
+      //     user.password = bcrypt.hashSync(user.password, salt);
+      //   }
+      // },
+      beforeSave: async (user) => {
+        if(user.password){
+          const salt = await bcrypt.genSaltSync(10, 'a');
+          user.password = bcrypt.hashSync(user.password, salt);
+        }
+      }
+    },
+    // instanceMethods: {
+    //   validPassword: function(password) {
+    //     return bcrypt.compareSync(password, this.password);
+    //   }
+    // },
     sequelize,
     modelName: 'user',
   });

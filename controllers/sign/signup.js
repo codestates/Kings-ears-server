@@ -1,4 +1,5 @@
 const { user } = require("../../models");
+
 module.exports = async (req, res) => {
     const { email, username, password } = req.body;
 

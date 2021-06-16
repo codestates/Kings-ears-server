@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 //const https = require("https");
 
 const app = express();
-const port = 80;
+const port = 5000;
 
 const controllers = require("./controllers");
 
