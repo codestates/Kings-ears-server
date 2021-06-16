@@ -1,8 +1,8 @@
 const { user } = require('../../models');
 const bcrypt = require('bcrypt');
 const { comparebcrypt } = require('../../bcryptmodule')
-
 const { generateAccessToken, generateRefreshToken, sendAccessToken, sendRefreshToken } = require('../../token');
+
 
 module.exports = async (req, res) => {
 
@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
         res.status(404).send({
             message: 'No user data'
         })
+
     }
 
 }

@@ -1,4 +1,4 @@
-const { user, secret, users_secret } = require('../../models');
+const { user, secret, users_secret, sequelize } = require('../../models');
 const { verifyAccessToken } = require('../../token');
 const { Op } = require("sequelize");
 
@@ -33,30 +33,41 @@ module.exports = async (req, res) => {
             });
 
             const sortArr = data2.sort((a, b) => b['users_secrets.createdAt'] - a['users_secrets.createdAt']);
-            const viewsecret = sortArr.slice(0, 4)
+            const viewsecret = sortArr.slice(0, 5)
 
             //내가 쓴 글 query
             const data3 = await secret.findAll({
                 where: { userId: { [Op.eq]: uid } }, raw: true,
             })
+
+            let secrets = data3.length;
+
             const sortArr1 = data3.sort((a, b) => b['secret.createdAt'] - a['secret.createdAt']);
-            const mysecret = sortArr1.slice(0, 4)
+            const mysecret = sortArr1.slice(0, 5)
 
             //비밀글수 query
-            const secretLen = data3.length
 
-            //유저네임 query
-            const data4 = await user.findOne({
-                attributes: ['username'],
-                where: { id: uid }, raw: true,
+            //유저네임 query      
+            const rank = await secret.findOne({
+                attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
+                group: 'userId',
+                order: [[sequelize.col('secretCount'), 'DESC']],
+                include: [{ model: user, attributes: ['username'] }]
             })
+            const kingdonkey = rank.user.username;
+            if (kingdonkey === userInfo.username) {
+                secrets = 9999
+            }
+    
+            let username = userInfo.username;
+
             res.status(200).send({
                 message: "OK",
                 data: {
-                    username: data4.username,
-                    secrets: secretLen,
+                    username,
+                    secrets,
                     viewsecret,
-                    mysecret
+                    mysecret,
                 }
             })
         }
