@@ -4,7 +4,6 @@ const { Op } = require("sequelize");
 
 module.exports = async (req, res) => {
     const userToken = await verifyAccessToken(req);
-    console.log('user Token ###############', userToken)
     if (userToken === null) {
         res.status(403).send({
             message: 'AccessToken Expired'
@@ -14,45 +13,62 @@ module.exports = async (req, res) => {
         const userInfo = await user.findOne({
             where: { id: uid }, raw: true
         });
-        if (userInfo.coin === 0) {
+        // if (userInfo.coin === 0) {
+        if (!userInfo.coin) {
             res.status(404).send({
                 message: 'no coin'
             });
         } else if (userInfo) {
             await user.update({
-                coin: userInfo.coin - 1
+                coin: userInfo.coin
+                // coin: userInfo.coin - 1 // 코인 시스템 보류
             }, { where: { id: uid } })
 
             const data = await secret.findAll({
                 where: { userId: { [Op.ne]: uid } }, raw: true,
-                include: [{ model: users_secret }],
+                // include: [{ model: users_secret }],
             });
 
-            const data2 = data.filter(el => {
-                if (el['users_secrets.userId'] !== uid) {
-                    return el
-                }
-            });
+            // const data2 = data.filter(el => {
+            //     if (el['users_secrets.userId'] !== uid) {
+            //         return el
+            //     }
+            // });
 
-            if (data2.length === 0) {
+            // if (data2.length === 0) {
+            //     res.status(204).send()
+            // } else {
+
+            //     let len = data2.length;
+            //     let idx = Math.floor(Math.random() * (len))
+
+            //     let username = await user.findOne({
+            //         where: { id: data2[idx]['userId'] }, raw: true
+            //     })
+            //     username = username.username
+
+            //     let secrets = await secret.count({
+            //         where: { userId: data2[idx]['userId'] }
+            //     })
+
+            //     const { content, likeCount, dislikeCount, id } = data2[idx]
+            if (data.length === 0) {
                 res.status(204).send()
             } else {
-                console.log('###################', data2)
 
-                let len = data2.length;
+                let len = data.length;
                 let idx = Math.floor(Math.random() * (len))
 
                 let username = await user.findOne({
-                    where: { id: data2[idx]['userId'] }, raw: true
+                    where: { id: data[idx]['userId'] }, raw: true
                 })
                 username = username.username
 
                 let secrets = await secret.count({
-                    where: { userId: data2[idx]['userId'] }
+                    where: { userId: data[idx]['userId'] }
                 })
 
-                console.log('@@@@@@@@@@@@@@@@@', username)
-                const { content, likeCount, dislikeCount, id } = data2[idx]
+                const { content, likeCount, dislikeCount, id } = data[idx]
 
                 await users_secret.create({
                     userId: uid,

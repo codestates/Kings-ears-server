@@ -3,7 +3,6 @@ const { user } = require('../../models')
 
 module.exports = async (req, res) => {
     const refreshToken = verifyrefreshToken(req);
-
     if (refreshToken === null) {
         res.status(403).send()
     } else {
