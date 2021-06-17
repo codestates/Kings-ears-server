@@ -16,6 +16,10 @@ module.exports = {
     },
     sendRefreshToken: (res, refreshToken) => {
         res.cookie("refreshToken", refreshToken, {
+            domain: "kingdonkey.ga",
+            secure: true,
+            samsSite: "none",
+            maxAge: 60 * 60 *24 *5 *1000,
             httpOnly: true });
     },
     verifyAccessToken: (req) => {
