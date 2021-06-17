@@ -9,18 +9,13 @@ module.exports = {
         return sign(data, process.env.REFRESH_SECRET, { expiresIn: '5d' })
     },
     sendAccessToken: (res, accessToken) => {
-        res.writeHead(200, { 'Access-Control-Allow-Origin': '*' }).send({
+        res.status(200).send({
             message: 'OK',
             accessToken: accessToken
         })
     },
     sendRefreshToken: (res, refreshToken) => {
-        res.cookie("refreshToken", refreshToken, {
-            domain: "kingdonkey.ga",
-            secure: true,
-            samsSite: "none",
-            maxAge: 60 * 60 *24 *5 *1000,
-            httpOnly: true });
+        res.cookie("refreshToken", refreshToken);
     },
     verifyAccessToken: (req) => {
         const authorization = req.headers["authorization"];

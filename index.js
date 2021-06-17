@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+require("dotenv").config()
+
 //const fs = require("fs");
 //const https = require("https");
 
@@ -13,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ["https://kingdonkey.ga"], // route53이후 수정
+    origin: [`${process.env.ORIGIN}`], // route53이후 수정
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
