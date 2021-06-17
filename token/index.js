@@ -9,7 +9,7 @@ module.exports = {
         return sign(data, process.env.REFRESH_SECRET, { expiresIn: '5d' })
     },
     sendAccessToken: (res, accessToken) => {
-        res.status(200).send({
+        res.writeHead(200, { 'Access-Control-Allow-Origin': '*' }).send({
             message: 'OK',
             accessToken: accessToken
         })
