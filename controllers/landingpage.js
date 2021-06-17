@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         where: { createdAt: { [Op.between]: [today, Date.parse(new Date())] } },
     })
     
-    res.writeHead(200, { 'Access-Control-Allow-Origin': '*' }).send({
+    res.status(200).send({
         message: 'OK',
         data: {
             todaysecret,
