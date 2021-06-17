@@ -9,14 +9,14 @@ const port = 80;
 
 const controllers = require("./controllers");
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ["http://kings-ears.s3-website.ap-northeast-2.amazonaws.com"], // route53이후 수정
+    origin: ["https://kingdonkey.ga"], // route53이후 수정
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 app.use(cookieParser());
