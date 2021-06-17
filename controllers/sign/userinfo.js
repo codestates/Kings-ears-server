@@ -47,7 +47,8 @@ module.exports = async (req, res) => {
 
             //비밀글수 query
 
-            //유저네임 query      
+            //유저네임 query
+            let rankOne = false; 
             const rank = await secret.findOne({
                 attributes: ['userId', [sequelize.fn('count', '*'), 'secretCount']],
                 group: 'userId',
@@ -56,7 +57,7 @@ module.exports = async (req, res) => {
             })
             const kingdonkey = rank.user.username;
             if (kingdonkey === userInfo.username) {
-                secrets = 9999
+                rankOne = true;
             }
     
             let username = userInfo.username;
@@ -68,6 +69,7 @@ module.exports = async (req, res) => {
                     secrets,
                     viewsecret,
                     mysecret,
+                    rankOne
                 }
             })
         }
